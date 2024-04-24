@@ -18,6 +18,9 @@ const Login = () => {
 
 const [isSignInForm , setIsSignInForm] = useState(true)
 const [errorMessage, setErrorMessage] = useState("")
+const [hidePassword,setHidePassword] = useState(true)
+
+
 const onToggle = ()=>{
 setIsSignInForm(!isSignInForm)
 }
@@ -62,7 +65,7 @@ createUserWithEmailAndPassword(auth, email.current.value, password.current.value
             photoURL: photoURL,
           })
         );
-        navigate("/browse");
+
       })
       .catch((error) => {
         setErrorMessage(error);
@@ -81,8 +84,8 @@ createUserWithEmailAndPassword(auth, email.current.value, password.current.value
      .then((userCredential) => {
        // Signed in
        const user = userCredential.user;
-       console.log(user)
-       navigate("/browse");
+
+
        
      })
      .catch((error) => {
@@ -93,6 +96,10 @@ setErrorMessage(errorCode + "-" + errorMessage);
 
  }
   
+}
+
+const togglePassword=()=>{
+setHidePassword(!hidePassword)
 }
 
 
@@ -123,16 +130,19 @@ setErrorMessage(errorCode + "-" + errorMessage);
           type="text"
           name="Email"
           placeholder="Email or phone number"
-          className="py-4 px-2 mx-0.5 my-3 bg-gray-800 "
+          className="py-4 px-2 mx-0.5 my-3 bg-gray-800 focus:outline-none"
         />
-
-        <input
-          ref={password}
-          type="password"
-          name="password"
-          placeholder={isSignInForm ? "Password" : " New Password"}
-          className="py-4 px-2 mx-0.5 my-3 bg-gray-800"
-        />
+        <div className="py-4 px-2 mx-0.5 my-3 bg-gray-800 flex justify-between">
+          <input
+            ref={password}
+            type={hidePassword ? "password" : "text"}
+            name="password"
+            placeholder={isSignInForm ? "Password" : " New Password"}
+            className=" bg-gray-800 focus:outline-none w- w-80  "
+            autocomplete="off"
+          />
+          <button onClick={togglePassword}>{hidePassword ? "🫣" : "👀"}</button>
+        </div>
 
         {/* {!isSignInForm && (
           <input
